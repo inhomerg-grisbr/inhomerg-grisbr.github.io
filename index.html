@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Departamentos en venta · 2 recámaras · 2 baños</title>
+<style>
+  :root{--ink:#1d1d1f;--mut:#6b6b70;--line:#e6e6e8;--acc:#0f5c4a;--accbg:#eef6f3;--gold:#a5843f}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:#fff}
+  header{padding:22px 20px 10px;max-width:1280px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px;font-weight:650;letter-spacing:-.2px}
+  .sub{color:var(--mut);font-size:13px}
+  .bar{position:sticky;top:0;background:#fff;z-index:5;border-bottom:1px solid var(--line)}
+  .bar-in{max-width:1280px;margin:0 auto;padding:10px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .tab{border:1px solid var(--line);background:#fff;padding:8px 14px;border-radius:999px;font-size:14px;cursor:pointer;color:var(--ink)}
+  .tab.on{background:var(--acc);border-color:var(--acc);color:#fff}
+  .tab small{opacity:.75}
+  select{border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:14px;background:#fff}
+  .note{max-width:1280px;margin:0 auto;padding:10px 20px 0;color:var(--mut);font-size:13px}
+  main{max-width:1280px;margin:0 auto;padding:8px 20px 40px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;font-weight:600;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.3px;padding:10px 8px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;user-select:none}
+  th.sorted{color:var(--acc)}
+  td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tr:hover td{background:#fafafa}
+  .ref{font-weight:700;color:var(--acc);white-space:nowrap}
+  .th{width:96px;height:72px;object-fit:cover;border-radius:6px;display:block;cursor:pointer;background:#f2f2f2}
+  .price{font-weight:650;white-space:nowrap}
+  .num{white-space:nowrap}
+  .ex{color:var(--mut);font-size:12.5px;max-width:300px}
+  .btn{display:inline-block;border:1px solid var(--acc);color:var(--acc);background:#fff;border-radius:8px;padding:7px 11px;font-size:13px;cursor:pointer;white-space:nowrap;text-decoration:none}
+  .btn:hover{background:var(--accbg)}
+  .tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:999px;background:var(--accbg);color:var(--acc);margin-top:3px}
+  /* gallery */
+  #gal{position:fixed;inset:0;background:rgba(15,15,17,.96);z-index:20;display:none;overflow:auto}
+  #gal.on{display:block}
+  .g-top{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;color:#fff;background:rgba(15,15,17,.9)}
+  .g-top b{font-size:16px}
+  .g-top span{color:#bbb;font-size:13px;margin-left:8px}
+  .g-close{background:#fff;color:#111;border:0;border-radius:999px;padding:8px 14px;font-size:14px;cursor:pointer}
+  .g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:10px;padding:10px 18px 30px;max-width:1300px;margin:0 auto}
+  .g-grid img{width:100%;border-radius:8px;display:block}
+  .g-info{color:#ddd;font-size:14px;padding:0 18px 4px;max-width:1300px;margin:0 auto;line-height:1.5}
+  .g-info ul{margin:6px 0 0;padding-left:18px}
+
+
+  .cover{background:#0e3b31;color:#fff;padding:38px 20px 30px;border-bottom:4px solid var(--gold)}
+  .cv-in{max-width:1280px;margin:0 auto}
+  .cv-brand{letter-spacing:3px;font-size:12px;color:#d8bf86;font-weight:600}
+  .cover h1{font-size:30px;margin:10px 0 14px;font-weight:650;letter-spacing:-.3px;color:#fff}
+  .cv-crit{display:flex;gap:8px;flex-wrap:wrap}
+  .cv-crit span{border:1px solid rgba(216,191,134,.6);color:#f3e7c8;border-radius:999px;padding:5px 12px;font-size:13.5px}
+  .cv-zones{margin-top:12px;color:#cfe3dc;font-size:15px}
+  .cv-stats{display:flex;gap:28px;margin:22px 0 18px;flex-wrap:wrap}
+  .cv-stats b{display:block;font-size:34px;color:#d8bf86;line-height:1}
+  .cv-stats small{color:#cfe3dc;font-size:12.5px}
+  .cv-by{font-size:14px;color:#e8f1ee;line-height:1.6}
+  .cv-by a{color:#d8bf86}
+  .cv-fine{margin-top:10px;font-size:12px;color:#9fbdb3}
+  @media print{.cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+  .ctc{margin-left:auto;font-size:13px;color:#fff;background:var(--acc);border-radius:999px;padding:8px 12px;text-decoration:none;font-weight:600;white-space:nowrap}
+  .ft{background:#0e3b31;color:#e8f1ee;padding:26px 20px 90px;border-top:4px solid var(--gold);font-size:14.5px;line-height:1.7}
+  .ft-in{max-width:1280px;margin:0 auto}
+  .ft-b{letter-spacing:3px;font-size:12px;color:#d8bf86;font-weight:600}
+  .ft a{color:#d8bf86}
+  @media (max-width:820px){.ctc{margin-left:0;order:-1;width:100%;text-align:center}}
+
+  .redes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .redes a{color:#0e3b31;background:#d8bf86;border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:600;text-decoration:none}
+  .vote{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .vb{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 10px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+  .vb.si.on{background:#0f5c4a;border-color:#0f5c4a;color:#fff}
+  .vb.no.on{background:#8a2d2d;border-color:#8a2d2d;color:#fff}
+  .nt{width:100%;min-width:160px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12.5px;font-family:inherit;margin-top:6px;resize:vertical}
+  tr.liked td{background:#f3faf7}
+  tr.nope td{opacity:.55}
+  #send{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:10;background:#0f5c4a;color:#fff;border:0;border-radius:999px;padding:13px 20px;font-size:15px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.18);display:none;text-decoration:none;white-space:nowrap}
+  #send.on{display:inline-block}
+  .g-vote{max-width:1300px;margin:0 auto;padding:6px 18px 0}
+  .g-vote .vb{background:#222;color:#eee;border-color:#555}
+  .g-vote .nt{background:#1e1e20;color:#eee;border-color:#444;max-width:520px}
+  .how{background:var(--accbg);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13.5px;color:#183f35}
+  @media (max-width:820px){
+    table,thead,tbody,tr,td{display:block}
+    thead{display:none}
+    tr{border:1px solid var(--line);border-radius:10px;margin:0 0 12px;padding:10px;display:grid;grid-template-columns:110px 1fr;gap:4px 10px}
+    td{border:0;padding:2px 0}
+    td.c-img{grid-row:span 6}
+    .th{width:110px;height:82px}
+    .ex{max-width:none}
+    .g-grid{grid-template-columns:1fr}
+  }
+  @media print{.bar,.btn,#gal{display:none!important}}
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="cv-in">
+    <div class="cv-brand">GRIS BIENES RAÍCES · IN HOME RG</div>
+    <h1>Selección de departamentos en venta</h1>
+    <div class="cv-crit">
+      <span>2 recámaras</span><span>2 baños</span><span>2 estacionamientos</span><span>$3.0 – $4.0 millones</span>
+    </div>
+    <div class="cv-zones">Benito Juárez · Cuauhtémoc · Álvaro Obregón</div>
+    <div class="cv-stats">
+      <div><b id="cA">31</b><small>cumplen todo<br>(2 estacionamientos)</small></div>
+      <div><b id="cB">157</b><small>misma zona y presupuesto<br>(1 estacionamiento)</small></div>
+    </div>
+    <div class="cv-by">Preparado por <b>Lic. Griselda Moreno Román</b> · Asesora inmobiliaria · 5 de noviembre de 2026</div>
+    <div class="redes"><a href="https://wa.me/525534629998" target="_blank" rel="noopener">WhatsApp 55 3462 9998</a><a href="https://www.instagram.com/inhomerg.co/" target="_blank" rel="noopener">Instagram @inhomerg.co</a><a href="https://www.facebook.com/inhomerg.co" target="_blank" rel="noopener">Facebook In Home RG</a><a href="https://www.tiktok.com/@gris.bienesraices" target="_blank" rel="noopener">TikTok @gris.bienesraices</a><a href="https://inhomerg.com" target="_blank" rel="noopener">inhomerg.com</a></div>
+    <div class="cv-fine">Precios de lista publicados en el último año, sujetos a confirmación de disponibilidad y precio.</div>
+  </div>
+</header>
+<div class="bar"><div class="bar-in">
+  <button class="tab on" data-t="A">2 estacionamientos <small id="nA"></small></button>
+  <button class="tab" data-t="B">1 estacionamiento <small id="nB"></small></button>
+  <a class="ctc" href="https://wa.me/525534629998" target="_blank" rel="noopener">Lic. Griselda Moreno Román · WhatsApp 55 3462 9998</a>
+  <select id="fa"><option value="">Todas las alcaldías</option><option>Benito Juárez</option><option>Cuauhtémoc</option><option>Álvaro Obregón</option></select>
+</div></div>
+<div class="note" id="note"></div>
+<div class="note"><div class="how"><b>¿Cómo me dices cuáles te gustan?</b> En cada departamento toca <b>Me interesa</b> o <b>No me interesa</b> y, si quieres, escribe una nota corta (qué te gustó o por qué no). Al terminar, toca el botón verde <b>Enviar mis selecciones a Gris por WhatsApp</b>.</div></div>
+<main><table><thead id="th"></thead><tbody id="tb"></tbody></table></main>
+
+<footer class="ft"><div class="ft-in"><div class="ft-b">GRIS BIENES RAÍCES · IN HOME RG</div><div><b>Lic. Griselda Moreno Román</b> · Asesora inmobiliaria</div><div class="redes"><a href="https://wa.me/525534629998" target="_blank" rel="noopener">WhatsApp 55 3462 9998</a><a href="https://www.instagram.com/inhomerg.co/" target="_blank" rel="noopener">Instagram @inhomerg.co</a><a href="https://www.facebook.com/inhomerg.co" target="_blank" rel="noopener">Facebook In Home RG</a><a href="https://www.tiktok.com/@gris.bienesraices" target="_blank" rel="noopener">TikTok @gris.bienesraices</a><a href="https://inhomerg.com" target="_blank" rel="noopener">inhomerg.com</a></div></div></footer>
+<div id="gal">
+  <div class="g-top"><div><b id="gT"></b><span id="gS"></span></div><button class="g-close" id="gX">Cerrar ✕</button></div>
+  <div class="g-info" id="gI"></div>
+  <div class="g-vote" id="gV"></div>
+  <div class="g-grid" id="gG"></div>
+</div>
+
+<a id="send" target="_blank" rel="noopener">Enviar mis selecciones a Gris por WhatsApp</a>
+<script>
+const $=s=>document.querySelector(s);
+const money=n=>'$'+Math.round(n).toLocaleString('es-MX');
+let DATA=null, tab='A', sortK=null, sortDir=1;
+let V={}; try{V=JSON.parse(localStorage.getItem('gris_sel')||'{}')}catch(e){V={}}
+const save=()=>{try{localStorage.setItem('gris_sel',JSON.stringify(V))}catch(e){} updSend();};
+const voteHTML=ref=>{const v=V[ref]||{};return `<div class="vote"><button class="vb si ${v.s==='si'?'on':''}" data-v="si" data-r="${ref}">♥ Me interesa</button><button class="vb no ${v.s==='no'?'on':''}" data-v="no" data-r="${ref}">✕ No me interesa</button></div><textarea class="nt" rows="1" data-r="${ref}" placeholder="Nota (opcional)">${(v.n||'').replace(/</g,'&lt;')}</textarea>`;};
+function updSend(){
+  const all=[...(DATA?DATA.A:[]),...(DATA?DATA.B:[])]; const by=Object.fromEntries(all.map(x=>[x.ref,x]));
+  const si=Object.keys(V).filter(k=>V[k].s==='si'&&by[k]).sort(), no=Object.keys(V).filter(k=>V[k].s==='no'&&by[k]).sort(), solo=Object.keys(V).filter(k=>!V[k].s&&V[k].n&&by[k]).sort();
+  const n=si.length+no.length+solo.length; const b=$('#send');
+  if(!n){b.classList.remove('on');return;}
+  const line=k=>{const x=by[k];return `• ${k} – ${x.col}, ${money(x.precio)}${V[k].n?' – '+V[k].n:''}`};
+  let t='Hola Gris, ya revisé los departamentos.\n';
+  if(si.length) t+='\n✅ ME INTERESAN:\n'+si.map(line).join('\n')+'\n';
+  if(no.length) t+='\n❌ NO ME INTERESAN:\n'+no.map(line).join('\n')+'\n';
+  if(solo.length) t+='\n📝 NOTAS:\n'+solo.map(line).join('\n')+'\n';
+  b.href='https://wa.me/525534629998?text='+encodeURIComponent(t);
+  b.textContent=`Enviar mis selecciones a Gris por WhatsApp (${si.length} ♥)`; b.classList.add('on');
+}
+
+const COLS={
+ A:[['ref','Ref.'],['img',''],['alc','Alcaldía'],['col','Colonia'],['dir','Dirección'],['precio','Precio'],['m2','m²'],['ppm','$/m²'],['dist','Rec / Baños / Est.'],['antig','Antigüedad'],['piso','Piso'],['mant','Mant. mensual'],['ex','Destacados'],['go','Ver / opinar']],
+ B:[['ref','Ref.'],['img',''],['alc','Alcaldía'],['col','Colonia'],['dir','Dirección'],['precio','Precio'],['m2','m²'],['ppm','$/m²'],['dist','Rec / Baños / Est.'],['antig','Antigüedad'],['mant','Mant. mensual'],['go','Ver / opinar']]};
+function rows(){
+  let r=(DATA[tab]||[]).map(x=>({...x,ppm:x.m2?x.precio/x.m2:null}));
+  const f=$('#fa').value; if(f) r=r.filter(x=>x.alc===f);
+  if(sortK) r.sort((a,b)=>{const va=a[sortK],vb=b[sortK]; if(va==null) return 1; if(vb==null) return -1; return (typeof va==='number'?va-vb:String(va).localeCompare(String(vb)))*sortDir});
+  return r;
+}
+function render(){
+  $('#note').textContent = tab==='A'
+   ? 'Cumplen exactamente: 2 recámaras, 2 baños, 2 estacionamientos. Toca la foto o “Ver fotos” para la galería de cada uno.'
+   : 'Misma zona y presupuesto, con 1 solo estacionamiento. Toca la foto para verla en grande.';
+  $('#th').innerHTML='<tr>'+COLS[tab].map(([k,l])=>`<th data-k="${k}" class="${sortK===k?'sorted':''}">${l}${sortK===k?(sortDir>0?' ↑':' ↓'):''}</th>`).join('')+'</tr>';
+  const r=rows();
+  $('#tb').innerHTML=r.map(x=>{
+    const img = tab==='A'? x.fotos[0] : x.img;
+    const cells={
+      ref:`<td class="ref">${x.ref}</td>`,
+      img:`<td class="c-img"><img class="th" loading="lazy" src="${img}" data-ref="${x.ref}" alt="${x.ref}"></td>`,
+      alc:`<td>${x.alc||''}</td>`, col:`<td>${x.col||''}</td>`, dir:`<td>${x.dir||''}</td>`,
+      precio:`<td class="price">${money(x.precio)}</td>`, m2:`<td class="num">${x.m2?x.m2+' m²':'—'}</td>`,
+      ppm:`<td class="num">${x.ppm?money(x.ppm):'—'}</td>`,
+      dist:`<td class="num">${tab==='A'?x.dist:'2 / 2 / 1'}</td>`,
+      antig:`<td>${x.antig||'—'}</td>`, piso:`<td>${x.piso||'—'}</td>`,
+      mant:`<td class="num">${x.mant? (typeof x.mant==='number'?money(x.mant):'$'+x.mant):'—'}</td>`,
+      ex:`<td class="ex">${(x.extras||[]).slice(0,3).join(' · ')}</td>`,
+      go:`<td><a class="btn" href="#${x.ref}">${tab==='A'?'Ver fotos ('+x.fotos.length+')':'Ver foto'}</a>${voteHTML(x.ref)}</td>`};
+    const v=V[x.ref]||{}; return `<tr class="${v.s==='si'?'liked':v.s==='no'?'nope':''}">`+COLS[tab].map(([k])=>cells[k]).join('')+'</tr>';
+  }).join('');
+}
+function openGal(ref){
+  const all=[...DATA.A.map(x=>({...x,t:'A'})),...DATA.B.map(x=>({...x,t:'B'}))];
+  const x=all.find(y=>y.ref===ref); if(!x) return closeGal();
+  $('#gT').textContent=x.ref+' · '+x.col+', '+x.alc;
+  $('#gS').textContent=money(x.precio)+(x.m2?' · '+x.m2+' m²':'')+' · '+(x.t==='A'?x.dist:'2 / 2 / 1')+' (rec / baños / est.)';
+  const det=[x.dir, x.antig&&('Antigüedad: '+x.antig), x.piso&&('Piso: '+x.piso), x.mant&&('Mantenimiento: '+(typeof x.mant==='number'?money(x.mant):'$'+x.mant)+' al mes')].filter(Boolean).join(' · ');
+  $('#gI').innerHTML=det+((x.extras&&x.extras.length)?'<ul>'+x.extras.map(e=>'<li>'+e+'</li>').join('')+'</ul>':'');
+  const imgs=x.t==='A'?x.fotos:[x.img];
+  $('#gV').innerHTML=voteHTML(x.ref);
+  $('#gG').innerHTML=imgs.map(s=>`<img src="${s}" alt="${x.ref}">`).join('');
+  $('#gal').classList.add('on'); document.body.style.overflow='hidden'; $('#gal').scrollTop=0;
+}
+function closeGal(){ $('#gal').classList.remove('on'); document.body.style.overflow=''; }
+function route(){ const h=location.hash.slice(1); if(/^[AB]-\d+$/.test(h)) openGal(h); else closeGal(); }
+document.addEventListener('click',e=>{
+  const vb=e.target.closest('.vb'); if(vb){const r=vb.dataset.r; V[r]=V[r]||{}; V[r].s=(V[r].s===vb.dataset.v)?'':vb.dataset.v; save(); render(); if($('#gal').classList.contains('on')) $('#gV').innerHTML=voteHTML(r); return;}
+  const t=e.target.closest('.tab'); if(t){tab=t.dataset.t; sortK=null; document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b===t)); render(); return;}
+  const h=e.target.closest('th'); if(h&&h.dataset.k&&!['img','go','ex'].includes(h.dataset.k)){const k=h.dataset.k; sortDir=(sortK===k)?-sortDir:1; sortK=k; render(); return;}
+  const im=e.target.closest('img.th'); if(im){location.hash=im.dataset.ref;}
+});
+$('#gX').onclick=()=>{ history.pushState('', document.title, location.pathname+location.search); closeGal(); };
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') $('#gX').click(); });
+$('#fa').onchange=render;
+document.addEventListener('input',e=>{const t=e.target.closest('.nt'); if(t){const r=t.dataset.r; V[r]=V[r]||{}; V[r].n=t.value.slice(0,200); save(); document.querySelectorAll('.nt[data-r="'+r+'"]').forEach(o=>{if(o!==t)o.value=t.value});}});
+document.addEventListener('change',e=>{if(e.target.closest('.nt')) render();});
+window.addEventListener('hashchange',route);
+fetch('data.json').then(r=>r.json()).then(d=>{DATA=d; $('#nA').textContent='('+d.A.length+')'; $('#nB').textContent='('+d.B.length+')'; $('#cA').textContent=d.A.length; $('#cB').textContent=d.B.length; render(); route(); updSend();})
+ .catch(()=>{$('#tb').innerHTML='<tr><td>No se pudieron cargar los datos.</td></tr>';});
+</script>
+</body>
+</html>
